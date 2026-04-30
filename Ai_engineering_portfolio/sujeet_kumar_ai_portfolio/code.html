@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sujeet Kumar | Neural Core Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#ffe7e5",
+                        "outline-variant": "#3b494c",
+                        "on-surface-variant": "#bac9cc",
+                        "surface-tint": "#00daf3",
+                        "surface-container": "#201f1f",
+                        "surface-dim": "#131313",
+                        "on-primary-fixed-variant": "#004f58",
+                        "surface-bright": "#3a3939",
+                        "on-error": "#690005",
+                        "on-background": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "outline": "#849396",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed-variant": "#004b70",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary": "#68000a",
+                        "inverse-primary": "#006875",
+                        "surface": "#131313",
+                        "secondary-fixed": "#cae6ff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "background": "#131313",
+                        "secondary-fixed-dim": "#8dcdff",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-primary": "#00363d",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#930012",
+                        "on-secondary": "#00344f",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "tertiary-container": "#ffc1bc",
+                        "primary-fixed": "#9cf0ff",
+                        "primary-container": "#00e5ff",
+                        "on-tertiary-fixed": "#410004",
+                        "on-secondary-container": "#003f5f",
+                        "primary": "#c3f5ff",
+                        "secondary-container": "#00affe",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#8dcdff",
+                        "on-primary-container": "#00626e",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-primary-fixed": "#001f24",
+                        "surface-container-highest": "#353534",
+                        "surface-variant": "#353534",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#b50019",
+                        "on-secondary-fixed": "#001e30",
+                        "inverse-on-surface": "#313030"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-page": "48px",
+                        "gutter": "24px",
+                        "stack-md": "32px",
+                        "stack-lg": "64px",
+                        "container-max": "1280px",
+                        "stack-sm": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Space Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+            border-color: #00e5ff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e0e0e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b494c;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00e5ff;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 h-16 dark:bg-neutral-950/80 backdrop-blur-md border-b border-white/10 shadow-[0_0_15px_rgba(0,229,255,0.15)]">
+<div class="text-xl font-black tracking-tighter dark:text-white font-['Space_Grotesk']">
+            NEURAL_CORE
+        </div>
+<nav class="hidden md:flex items-center gap-stack-md font-['Space_Grotesk'] tracking-tight">
+<a class="dark:text-cyan-400 border-b border-cyan-400 font-bold hover:dark:text-cyan-300 hover:dark:bg-white/5 transition-all duration-300 px-2 py-1" href="#home">Home</a>
+<a class="dark:text-neutral-400 font-medium hover:dark:text-cyan-300 hover:dark:bg-white/5 transition-all duration-300 px-2 py-1" href="#experience">Experience</a>
+<a class="dark:text-neutral-400 font-medium hover:dark:text-cyan-300 hover:dark:bg-white/5 transition-all duration-300 px-2 py-1" href="#projects">Projects</a>
+<a class="dark:text-neutral-400 font-medium hover:dark:text-cyan-300 hover:dark:bg-white/5 transition-all duration-300 px-2 py-1" href="#skills">Skills</a>
+<a class="dark:text-neutral-400 font-medium hover:dark:text-cyan-300 hover:dark:bg-white/5 transition-all duration-300 px-2 py-1" href="#certifications">Certifications</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined dark:text-cyan-400 cursor-pointer active:scale-95 transition-transform" data-icon="terminal">terminal</span>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 font-['Space_Grotesk'] font-bold rounded-lg active:scale-95 transition-transform">Resume</button>
+</div>
+</header>
+<main class="pt-16">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex flex-col items-center justify-center text-center px-margin-page overflow-hidden" id="home">
+<div class="absolute inset-0 z-0">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,229,255,0.08)_0%,transparent_70%)]"></div>
+<div class="w-full h-full opacity-20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBlaMCETnV2AqIEJZvNF0Ix5KFB3BwK2CacUFdjaChwTmGB1tt501KBcdcdMCApWosrTJNWhqlcep1ZOuAIOTjz2Nc7mabhhGrU-FCnHQRmcW2BgFROa7LSusO7r2HlE6EUKy8qvTyt1lBA6Pxb2JjITUxz_-yjWRx8nFTFeuZes_Nx8sVEaI6IL8he61eXoqkEzton6ADUDyFyo-Zl546g0EL7ldOhFGcvx-_h7584NvqIu4A1Mu0zydM7ScQkSffdC0pDeotfUuG3');"></div>
+</div>
+<div class="relative z-10 space-y-stack-md max-w-4xl">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary-fixed-dim/30 bg-primary-fixed-dim/5 text-primary-fixed-dim font-label-caps uppercase">
+<span class="material-symbols-outlined text-[14px]" data-icon="robot_2">robot_2</span>
+                    Master of Computer Science Student
+                </div>
+<h1 class="font-headline-xl text-headline-xl text-white tracking-tighter">
+                    I am <span class="text-primary-container">Sujeet Kumar</span>,<br/>Architecting Intelligence.
+                </h1>
+<p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                    Transforming raw data into predictive narratives. Specialized in EDA, Machine Learning, and Cybersecurity. Based in New Delhi, India.
+                </p>
+<div class="flex flex-wrap justify-center gap-stack-sm pt-4">
+<div class="flex items-center gap-2 text-outline-variant font-label-caps">
+<span class="material-symbols-outlined text-primary-container" data-icon="location_on">location_on</span>
+                        New Delhi, India
+                    </div>
+<div class="w-1 h-1 rounded-full bg-outline-variant self-center"></div>
+<div class="flex items-center gap-2 text-outline-variant font-label-caps">
+<span class="material-symbols-outlined text-primary-container" data-icon="school">school</span>
+                        University of Delhi
+                    </div>
+</div>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+<span class="font-label-caps text-[10px]">SCROLL TO EXPLORE</span>
+<div class="w-px h-12 bg-gradient-to-b from-primary-container to-transparent"></div>
+</div>
+</section>
+<!-- Education Section -->
+<section class="py-stack-lg px-margin-page max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-white mb-stack-lg flex items-center gap-4">
+<span class="text-primary-container">01</span> Education.
+            </h2>
+<div class="relative border-l border-white/10 ml-4 pl-12 space-y-stack-lg">
+<!-- Degree 1 -->
+<div class="relative">
+<div class="absolute -left-[53px] top-0 w-10 h-10 rounded-full glass-card flex items-center justify-center border-primary-container">
+<span class="material-symbols-outlined text-primary-container" data-icon="history_edu">history_edu</span>
+</div>
+<div>
+<span class="text-primary-container font-label-caps">2024 — 2026 (Expected)</span>
+<h3 class="font-headline-md text-headline-md text-white mt-2">Master of Computer Science</h3>
+<p class="text-body-lg text-on-surface-variant">University of Delhi</p>
+<p class="mt-4 text-on-surface-variant/80 max-w-2xl">Focusing on Advanced Algorithms, Neural Networks, and Distributed Computing architectures.</p>
+</div>
+</div>
+<!-- Degree 2 -->
+<div class="relative">
+<div class="absolute -left-[53px] top-0 w-10 h-10 rounded-full glass-card flex items-center justify-center border-white/20">
+<span class="material-symbols-outlined text-white/40" data-icon="workspace_premium">workspace_premium</span>
+</div>
+<div>
+<span class="text-outline font-label-caps">2021 — 2024</span>
+<h3 class="font-headline-md text-headline-md text-white mt-2">B.Sc. Physical Science with Computer Science</h3>
+<p class="text-body-lg text-on-surface-variant">Kirori Mal College, University of Delhi</p>
+<div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded bg-surface-container text-primary-fixed-dim text-sm font-medium">
+<span class="material-symbols-outlined text-[16px]" data-icon="grade">grade</span>
+                            GPA: 7.64 / 10.0
+                        </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Experience Section -->
+<section class="py-stack-lg bg-surface-container-lowest/50" id="experience">
+<div class="px-margin-page max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-white mb-stack-lg flex items-center gap-4">
+<span class="text-primary-container">02</span> Experience.
+                </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Exp 1 -->
+<div class="glass-card p-8 rounded-xl glow-hover transition-all duration-500 group">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="bg-primary-container/10 text-primary-container px-3 py-1 rounded text-xs font-bold uppercase tracking-widest">Ongoing</span>
+<h3 class="text-headline-md font-headline-md text-white mt-3">Data Science Intern</h3>
+<p class="text-on-surface-variant font-medium">Unified Mentor</p>
+</div>
+<span class="material-symbols-outlined text-primary-container text-4xl opacity-20 group-hover:opacity-100 transition-opacity" data-icon="analytics">analytics</span>
+</div>
+<ul class="space-y-4 text-on-surface-variant">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="check_circle">check_circle</span>
+                                Performing Exploratory Data Analysis (EDA) on complex datasets to extract actionable insights.
+                            </li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="check_circle">check_circle</span>
+                                Developing and optimizing Machine Learning models for predictive analysis.
+                            </li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="check_circle">check_circle</span>
+                                Utilizing Python, Scikit-learn, and Power BI for high-fidelity data visualization.
+                            </li>
+</ul>
+</div>
+<!-- Exp 2 -->
+<div class="glass-card p-8 rounded-xl glow-hover transition-all duration-500 group">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="bg-outline-variant/20 text-outline px-3 py-1 rounded text-xs font-bold uppercase tracking-widest">Completed</span>
+<h3 class="text-headline-md font-headline-md text-white mt-3">Cybersecurity Intern</h3>
+<p class="text-on-surface-variant font-medium">Information Security Lab</p>
+</div>
+<span class="material-symbols-outlined text-primary-container text-4xl opacity-20 group-hover:opacity-100 transition-opacity" data-icon="shield_lock">shield_lock</span>
+</div>
+<ul class="space-y-4 text-on-surface-variant">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="check_circle">check_circle</span>
+                                Conducted vulnerability assessments and network security audits.
+                            </li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="check_circle">check_circle</span>
+                                Researched emerging threat vectors and defense mechanisms.
+                            </li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="check_circle">check_circle</span>
+                                Assisted in implementing encryption protocols for secure data transmission.
+                            </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Projects Section -->
+<section class="py-stack-lg px-margin-page max-w-container-max mx-auto" id="projects">
+<div class="flex justify-between items-end mb-stack-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-white flex items-center gap-4">
+<span class="text-primary-container">03</span> Selected Works.
+                    </h2>
+<p class="text-on-surface-variant mt-2">Experimental builds and production-grade applications.</p>
+</div>
+<button class="text-primary-container border-b border-primary-container/30 hover:border-primary-container transition-all font-label-caps">VIEW ALL REPOS</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Project 1: Laptop Price Predictor -->
+<div class="md:col-span-8 group relative overflow-hidden rounded-xl glass-card aspect-video md:aspect-auto md:h-[400px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60" data-alt="Close up of high-end laptop with futuristic dashboard showing code and price graphs in cyan neon glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZqUL7mQ7XMvs94BzTAhEvtXBBhkkggPjxdeu63dgjE01mvPbjtmaeTM_ZJzaDJ7bW_a29WlZ-HyrMBoocPUtW5XEDXkl4vDGhEwvq7LlHdnKf3sn7li55ItruShQLao52WBnUtFyJQwLCcIwep8a-8zMZKhMTnoDCGP9rD4mhYEEpRF14EZzv8EciYw6-ekE3W8NnaDIwj96H7ktT5ZzlczvQ8j788ylfwHSn4VKj-L2dMatJHmkkskJls3EPIQkMLS4R-Y9T8Cjx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent flex flex-col justify-end p-8">
+<div class="space-y-2 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+<span class="text-primary-container font-label-caps">Machine Learning</span>
+<h3 class="text-headline-lg font-headline-lg text-white">Laptop Price Predictor</h3>
+<p class="text-on-surface-variant max-w-lg opacity-0 group-hover:opacity-100 transition-opacity delay-100">An end-to-end ML application predicting market values using regression analysis with 92% accuracy.</p>
+<div class="flex flex-wrap gap-2 pt-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs font-mono">Python</span>
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs font-mono">Scikit-Learn</span>
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs font-mono">Streamlit</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Project 2: CreatorCalc -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl glass-card h-[400px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-30 group-hover:opacity-50" data-alt="Minimalist modern analytical dashboard with clean typography and floating bar charts on dark screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVm2Df-w0Q4-N_Z3CE5xxpwKBZo0yfAmV6Zb-PHa506vDNGpGE8oDBdcXX8gBnrrIyAEELy3yu8f5F0eqPozzW96anvzrRM__prqwLZHbGxmcvo8_hIn1t_Q6pgWri8petRJEJkdAYOOTBhdF5Vw9Cx2ljBfu2T6Uv8qTA1jhTEg0TqlXGpg3tBgII1-djwcysBYhMqoRlnLXRyrg6i9cY4SBOEgCDIZhCLqw4WP9VAE-XrAvti7_Kyscror9Or4Ey2BtxSxb4416e"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent flex flex-col justify-end p-8">
+<div class="space-y-2">
+<span class="text-primary-container font-label-caps">Web Tool</span>
+<h3 class="text-headline-md font-headline-md text-white">CreatorCalc</h3>
+<p class="text-sm text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">Revenue projection engine for digital creators.</p>
+<div class="pt-4 flex gap-4">
+<span class="material-symbols-outlined text-primary-container cursor-pointer hover:scale-110 transition-transform" data-icon="open_in_new">open_in_new</span>
+<span class="material-symbols-outlined text-white/50 cursor-pointer hover:text-white transition-colors" data-icon="code">code</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Project 3: Elite Influencer -->
+<div class="md:col-span-6 group relative overflow-hidden rounded-xl glass-card h-[350px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-30 group-hover:opacity-50" data-alt="Abstract deep purple and cyan lighting streaks representing digital network flow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcrY7EI6hCQqRXZIPCO_Wch9PZFYDiHaaNx7TjIZA0ALmMNSfaI6l_6Fzty8LYLyeUwkm0K_l0vlcowBV2jbLlu57SjupUDdXB0DNaTy0kLZSsMsEgZ780uEUBZ_DasdNYW_yehuN3kLFID0Ac5XrqhNQnlC1FWDUWReWqFceEPeu6ZriLiBgxaZ9Qv5sEVDLsOHMGRWS8fQtyNpwZONp9Uj6l_h_owOiHfrn1b1WVSPqyVS3idUhEi7SJ3nn80iHlfFaOUqwT7rlq"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent flex flex-col justify-end p-8">
+<h3 class="text-headline-md font-headline-md text-white">Elite Influencer</h3>
+<p class="text-on-surface-variant">Social media engagement analytics platform.</p>
+<div class="flex gap-2 mt-4">
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono">React</span>
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono">Firebase</span>
+</div>
+</div>
+</div>
+<!-- Project 4: Trends Analysis -->
+<div class="md:col-span-6 group relative overflow-hidden rounded-xl glass-card h-[350px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-30 group-hover:opacity-50" data-alt="Dense data visualization with complex interconnected nodes and light rays on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8FR9TfSIR98qW3lOhUQYIXX5o_eNYauknA9C3Z5CfJvXXas8jMzvy20hZ-sEWIYjx1K5QJbAzNR7My167nbopAaChxLKeYP-P_z3FxCuP9BjC08pPPlYtyV6mD4TfvrpbpyjTL-RzrswEk2cdwbLln398k0bqZ-hdgkeF5mRgPFixTczR9xXogLRdvjPPSmQMizUkv-w4OyP-TK2HH156zSV1v7QXamlO3FL_TG3LedccYL85O5Gnq5NxySk2ufW_TxlPLuqgK9nE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent flex flex-col justify-end p-8">
+<h3 class="text-headline-md font-headline-md text-white">Customer Trends</h3>
+<p class="text-on-surface-variant">Deep-dive EDA on e-commerce behavior patterns.</p>
+<div class="flex gap-2 mt-4">
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono">Python</span>
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono">Matplotlib</span>
+<span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono">Seaborn</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Section -->
+<section class="py-stack-lg bg-surface-container/30" id="skills">
+<div class="px-margin-page max-w-container-max mx-auto">
+<div class="text-center mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg text-white">Technical Arsenal.</h2>
+<p class="text-on-surface-variant">Specialized toolkit for data engineering and secure development.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Languages -->
+<div class="space-y-6">
+<h4 class="font-headline-md text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="code">code</span>
+                            Languages
+                        </h4>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm font-medium">Python</span>
+<span class="text-xs text-primary-container">90%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-[90%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm font-medium">SQL</span>
+<span class="text-xs text-primary-container">85%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-[85%] shadow-[0_0_8px_#00e5ff]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm font-medium">C++</span>
+<span class="text-xs text-primary-container">75%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-[75%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Science -->
+<div class="space-y-6">
+<h4 class="font-headline-md text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="data_exploration">data_exploration</span>
+                            Data Science
+                        </h4>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 glass-card rounded text-sm text-on-surface-variant border-white/5 hover:border-primary-container/30 transition-all">Scikit-Learn</span>
+<span class="px-4 py-2 glass-card rounded text-sm text-on-surface-variant border-white/5 hover:border-primary-container/30 transition-all">Pandas</span>
+<span class="px-4 py-2 glass-card rounded text-sm text-on-surface-variant border-white/5 hover:border-primary-container/30 transition-all">Power BI</span>
+<span class="px-4 py-2 glass-card rounded text-sm text-on-surface-variant border-white/5 hover:border-primary-container/30 transition-all">Tableau</span>
+<span class="px-4 py-2 glass-card rounded text-sm text-on-surface-variant border-white/5 hover:border-primary-container/30 transition-all">NumPy</span>
+<span class="px-4 py-2 glass-card rounded text-sm text-on-surface-variant border-white/5 hover:border-primary-container/30 transition-all">EDA</span>
+</div>
+</div>
+<!-- Soft Skills & Soft -->
+<div class="space-y-6">
+<h4 class="font-headline-md text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="groups">groups</span>
+                            Leadership
+                        </h4>
+<div class="space-y-4">
+<div class="p-4 rounded-lg bg-surface-container-high border-l-2 border-primary-container">
+<h5 class="text-white text-sm font-bold">Team Leader @ Viral Fission</h5>
+<p class="text-xs text-on-surface-variant mt-1">Orchestrating campus outreach and brand strategy execution.</p>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-high border-l-2 border-primary-container">
+<h5 class="text-white text-sm font-bold">Problem Solving</h5>
+<p class="text-xs text-on-surface-variant mt-1">Analytical approach to software architecture and debugging.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Certifications -->
+<section class="py-stack-lg px-margin-page max-w-container-max mx-auto" id="certifications">
+<h2 class="font-headline-lg text-headline-lg text-white mb-stack-lg flex items-center gap-4">
+<span class="text-primary-container">04</span> Certifications.
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="p-6 glass-card border-white/10 rounded-xl hover:bg-white/5 transition-all flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-4" data-icon="verified">verified</span>
+<h4 class="font-headline-md text-sm text-white">Advanced ML Specialization</h4>
+<p class="text-xs text-outline mt-2">Coursera / Stanford</p>
+</div>
+<div class="p-6 glass-card border-white/10 rounded-xl hover:bg-white/5 transition-all flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-4" data-icon="verified">verified</span>
+<h4 class="font-headline-md text-sm text-white">Google Data Analytics</h4>
+<p class="text-xs text-outline mt-2">Professional Certificate</p>
+</div>
+<div class="p-6 glass-card border-white/10 rounded-xl hover:bg-white/5 transition-all flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-4" data-icon="verified">verified</span>
+<h4 class="font-headline-md text-sm text-white">Cybersecurity Foundations</h4>
+<p class="text-xs text-outline mt-2">ISL Academy</p>
+</div>
+<div class="p-6 glass-card border-white/10 rounded-xl hover:bg-white/5 transition-all flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-4" data-icon="verified">verified</span>
+<h4 class="font-headline-md text-sm text-white">Python for Data Science</h4>
+<p class="text-xs text-outline mt-2">IBM Developer</p>
+</div>
+</div>
+</section>
+<!-- Contact CTA -->
+<section class="py-24 px-margin-page text-center">
+<div class="max-w-2xl mx-auto space-y-6">
+<h2 class="font-headline-xl text-[48px] text-white">Let's build the <span class="text-primary-container">future</span> together.</h2>
+<p class="text-on-surface-variant">Available for collaborations, internships, and data-driven projects.</p>
+<div class="pt-8 flex flex-col md:flex-row justify-center gap-4">
+<a class="px-8 py-4 bg-primary-container text-on-primary-container font-bold rounded-lg hover:scale-105 transition-transform flex items-center justify-center gap-2" href="mailto:sujeet@example.com">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+                        Initialize Contact
+                    </a>
+<a class="px-8 py-4 border border-white/20 text-white font-bold rounded-lg hover:bg-white/5 transition-all flex items-center justify-center gap-2" href="#">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                        Get Full CV
+                    </a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 px-12 flex flex-col md:flex-row justify-between items-center gap-8 dark:bg-neutral-950 border-t border-white/5">
+<div class="flex flex-col gap-2">
+<div class="text-lg font-bold dark:text-white font-['Space_Grotesk']">NEURAL_CORE</div>
+<p class="font-['Space_Grotesk'] text-xs tracking-widest uppercase dark:text-neutral-500">© 2024 NEURAL CORE ENGINE</p>
+</div>
+<div class="flex gap-12 font-['Space_Grotesk'] text-xs tracking-widest uppercase">
+<a class="dark:text-neutral-500 hover:dark:text-white transition-colors duration-200 opacity-80 hover:opacity-100" href="#">GitHub</a>
+<a class="dark:text-neutral-500 hover:dark:text-white transition-colors duration-200 opacity-80 hover:opacity-100" href="#">LinkedIn</a>
+<a class="dark:text-neutral-500 hover:dark:text-white transition-colors duration-200 opacity-80 hover:opacity-100" href="#">Scholar</a>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-outline tracking-widest uppercase">Encoded with Precision</p>
+<p class="text-xs text-primary-container font-mono">v1.0.2-alpha</p>
+</div>
+</footer>
+</body></html>
