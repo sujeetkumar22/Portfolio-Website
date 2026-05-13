@@ -219,4 +219,245 @@ document.addEventListener('DOMContentLoaded', () => {
         initParticles();
         animateParticles();
     }
+
+    // =============================================
+    //  AI CHATBOT (Gemini API)
+    // =============================================
+    const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY'; // <-- Replace with your key
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+    const SUJEET_RESUME_CONTEXT = `You are Sujeet Kumar's personal AI assistant on his portfolio website. You answer questions about Sujeet ONLY based on the information below. Be conversational, professional, concise, and friendly. Use bullet points or short paragraphs. If someone asks something unrelated to Sujeet, politely redirect them. If you don't know something specific, say so honestly rather than inventing details. Use emojis sparingly to keep it engaging.
+
+=== SUJEET KUMAR's RESUME ===
+
+CONTACT:
+- Phone: +91 7004072847
+- Email: sujeetk.work@gmail.com
+- Location: New Delhi, Delhi, India
+
+PROFESSIONAL SUMMARY:
+A Master of Computer Science candidate with hands-on experience in predictive modeling, data analytics, algorithm design and marketing. Proven ability to develop and deploy machine learning solutions using Python, SQL, and Scikit-Learn. Skilled in deriving actionable business insights from large datasets and end-to-end exploratory data analysis. Combines technical proficiency with team leadership and cybersecurity experience.
+
+EDUCATION:
+1. Master of Computer Science (Expected 2026) - Department of Computer Science, University of Delhi
+   Coursework: Machine Learning, Deep Learning, Artificial Intelligence, Cloud Computing.
+2. BSc Physical Science with Computer Science (2021-2024) - Acharya Narendra Dev College, University of Delhi
+   Coursework: Data Structures and Algorithms, DBMS, Operating Systems, Computer Networks.
+
+SKILLS:
+- Languages & Core: Python, SQL, C++, JavaScript, HTML/CSS
+- Data Science & ML: Scikit-Learn, Predictive Modeling, Data Cleaning, EDA, Power BI, Tableau
+- Techniques: Regression, Classification, Decision Trees, Data Visualization, Algorithm Design
+- Soft Skills: Problem Solving, Cross-functional Collaboration, Strategic Thinking, Project Management
+
+EXPERIENCE:
+1. Data Science Intern at Unified Mentor (June 2025 - July 2025, Remote)
+   - Executed end-to-end EDA and data cleaning on large datasets to improve model accuracy and data quality.
+   - Developed and validated machine learning models, applying statistical concepts to real-world data problems.
+   - Derived insights from structured data to support data-driven decision-making processes.
+
+2. Cybersecurity Intern at Center of Development of Advanced Computing / CDAC (May 2025 - July 2025, Noida, UP)
+   - Gained hands-on experience in securing digital assets, aligning with risk and fraud prevention methodologies.
+   - Analyzed potential security vulnerabilities, enhancing understanding of risk mitigation strategies relevant to financial data protection.
+
+3. Team Leader at Viral Fission (May 2023 - May 2026, Mumbai, Maharashtra)
+   - Led a community team, structuring business findings and driving engagement strategies.
+   - Demonstrated leadership and communication skills.
+
+PROJECTS:
+1. Customer Trends & Spending Analysis (Python, SQL, Power BI)
+   - Executed end-to-end analysis of transactional data to uncover spending patterns, customer segments, and product preferences.
+   - Leveraged SQL for data extraction and Power BI for visualization, presenting structured business findings.
+
+2. Laptop Price Predictor (Machine Learning, Python, Streamlit)
+   - Developed a predictive model to estimate market prices based on technical specifications using Scikit-Learn.
+   - Deployed as a live web application using Streamlit.
+
+3. CreatorCalc – Algorithmic Pricing Dashboard (JavaScript, Algorithms)
+   - Designed a custom weighted algorithm to calculate fair market rates for content creators.
+   - Built a responsive dashboard with real-time lead capture using PostgreSQL.
+
+4. Elite Influencer – Marketing Marketplace (Full Stack)
+   - Developed a marketplace platform connecting influencers with brands, facilitating optimized marketing campaigns.
+
+CERTIFICATIONS:
+- Data Analytics Course – PW Skills & Microsoft
+- Introduction to Career Skills in Data Analytics – LinkedIn
+- Data Analytics Job Simulation – Deloitte Australia
+- Prompt Design in Vertex AI Skill Badge – Google
+
+LEADERSHIP & INVOLVEMENT:
+- Team Leader for Youth Community Platform Viral Fission
+- Campus Ambassador for Realme India and 91 Mobiles
+- Elite Community Member 91 Mobiles
+
+=== END OF RESUME ===
+
+Remember: Only answer based on the above information. Be helpful and represent Sujeet professionally.`;
+
+    let conversationHistory = [];
+
+    const chatToggle = document.getElementById('ai-chat-toggle');
+    const chatWindow = document.getElementById('ai-chat-window');
+    const chatClose = document.getElementById('ai-chat-close');
+    const chatInput = document.getElementById('ai-chat-input');
+    const chatSend = document.getElementById('ai-chat-send');
+    const chatMessages = document.getElementById('ai-chat-messages');
+
+    if (chatToggle && chatWindow) {
+        chatToggle.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+            if (chatWindow.classList.contains('open')) {
+                chatInput.focus();
+            }
+        });
+
+        chatClose.addEventListener('click', () => {
+            chatWindow.classList.remove('open');
+        });
+
+        // Send on Enter key
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        chatSend.addEventListener('click', sendMessage);
+
+        // Suggestion chips
+        document.querySelectorAll('.ai-suggestion-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const question = chip.getAttribute('data-q');
+                chatInput.value = question;
+                sendMessage();
+                // Remove suggestion chips after clicking
+                const suggestionsContainer = chip.parentElement;
+                if (suggestionsContainer) suggestionsContainer.remove();
+            });
+        });
+    }
+
+    function sendMessage() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // Add user message
+        appendMessage(text, 'user');
+        chatInput.value = '';
+
+        // Add to conversation history
+        conversationHistory.push({ role: 'user', parts: [{ text }] });
+
+        // Show typing indicator
+        const typingEl = showTypingIndicator();
+
+        // Call Gemini API
+        callGeminiAPI(text)
+            .then(response => {
+                removeTypingIndicator(typingEl);
+                appendMessage(response, 'ai');
+                conversationHistory.push({ role: 'model', parts: [{ text: response }] });
+            })
+            .catch(err => {
+                removeTypingIndicator(typingEl);
+                const errorMsg = err.message.includes('API key')
+                    ? '⚠️ API key not configured. The site owner needs to add a Gemini API key.'
+                    : '⚠️ Sorry, something went wrong. Please try again.';
+                appendMessage(errorMsg, 'ai', true);
+            });
+    }
+
+    function appendMessage(text, sender, isError = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `ai-message ${sender === 'user' ? 'user-message' : ''}`;
+
+        if (sender === 'ai') {
+            msgDiv.innerHTML = `
+                <div class="ai-msg-avatar"><span class="material-symbols-outlined">smart_toy</span></div>
+                <div class="ai-msg-bubble ${isError ? 'ai-error-bubble' : ''}">${formatMessage(text)}</div>
+            `;
+        } else {
+            msgDiv.innerHTML = `
+                <div class="ai-msg-bubble">${escapeHtml(text)}</div>
+            `;
+        }
+
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function formatMessage(text) {
+        // Convert markdown-like formatting to HTML
+        let formatted = escapeHtml(text);
+        // Bold
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Bullet points
+        formatted = formatted.replace(/^[-•]\s+(.+)/gm, '<li>$1</li>');
+        if (formatted.includes('<li>')) {
+            formatted = formatted.replace(/(<li>.*<\/li>)/gs, '<ul style="margin:6px 0;padding-left:16px;">$1</ul>');
+        }
+        // Line breaks
+        formatted = formatted.replace(/\n/g, '<br>');
+        return formatted;
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(text));
+        return div.innerHTML;
+    }
+
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'ai-typing-indicator';
+        typingDiv.innerHTML = `
+            <div class="ai-msg-avatar"><span class="material-symbols-outlined">smart_toy</span></div>
+            <div class="ai-typing-dots"><span></span><span></span><span></span></div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return typingDiv;
+    }
+
+    function removeTypingIndicator(el) {
+        if (el && el.parentNode) {
+            el.parentNode.removeChild(el);
+        }
+    }
+
+    async function callGeminiAPI(userMessage) {
+        if (GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
+            throw new Error('API key not configured');
+        }
+
+        const requestBody = {
+            system_instruction: {
+                parts: [{ text: SUJEET_RESUME_CONTEXT }]
+            },
+            contents: conversationHistory
+        };
+
+        const response = await fetch(GEMINI_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `API Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!aiText) {
+            throw new Error('No response from AI');
+        }
+
+        return aiText;
+    }
+
 });
