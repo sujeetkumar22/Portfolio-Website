@@ -1,20 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // --- Custom Cursor ---
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorOutline = document.querySelector('.cursor-outline');
-    
+
     if (window.matchMedia('(pointer: fine)').matches) {
         window.addEventListener('mousemove', (e) => {
             const posX = e.clientX;
             const posY = e.clientY;
 
-            if(cursorDot) {
+            if (cursorDot) {
                 cursorDot.style.left = `${posX}px`;
                 cursorDot.style.top = `${posY}px`;
             }
 
-            if(cursorOutline) {
+            if (cursorOutline) {
                 cursorOutline.animate({
                     left: `${posX}px`,
                     top: `${posY}px`
@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let charIndex = 0;
     let isDeleting = false;
     const typingText = document.querySelector('.typing-text');
-    
+
     function typeEffect() {
-        if(!typingText) return;
+        if (!typingText) return;
         const currentRole = roles[roleIndex];
-        
+
         if (isDeleting) {
             typingText.textContent = currentRole.substring(0, charIndex - 1);
             charIndex--;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(typeEffect, typeSpeed);
     }
-    
+
     setTimeout(typeEffect, 1500);
 
     // --- Navbar Scroll ---
@@ -85,22 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 // Regular Reveal
-                if(entry.target.classList.contains('reveal')) {
+                if (entry.target.classList.contains('reveal')) {
                     entry.target.classList.add('active');
                 }
-                
+
                 // Progress Bars Animation
-                if(entry.target.classList.contains('skills')) {
+                if (entry.target.classList.contains('skills')) {
                     progressFills.forEach(fill => {
                         fill.style.width = fill.getAttribute('data-width');
                         fill.style.transition = "width 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0.5s";
                     });
-                    
+
 
                 }
-                
+
                 // Timeline Animation
-                if(entry.target.classList.contains('education') && timelineLine) {
+                if (entry.target.classList.contains('education') && timelineLine) {
                     timelineLine.style.height = "100%";
                 }
             }
@@ -109,13 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => scrollObserver.observe(el));
     const skillsSection = document.querySelector('.skills');
-    if(skillsSection) scrollObserver.observe(skillsSection);
-    if(timelineSection) scrollObserver.observe(timelineSection);
+    if (skillsSection) scrollObserver.observe(skillsSection);
+    if (timelineSection) scrollObserver.observe(timelineSection);
 
 
     // --- 3D Tilt Effect on Cards ---
     const tiltCards = document.querySelectorAll('.tilt-card');
-    
+
     if (window.matchMedia('(pointer: fine)').matches) {
         tiltCards.forEach(card => {
             card.addEventListener('mousemove', e => {
@@ -124,19 +124,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
+
                 // Smoother, subtle rotation
                 const rotateX = ((y - centerY) / centerY) * -5;
                 const rotateY = ((x - centerX) / centerX) * 5;
-                
+
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
             });
-            
+
             card.addEventListener('mouseleave', () => {
                 card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
                 card.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
             });
-            
+
             card.addEventListener('mouseenter', () => {
                 card.style.transition = 'none'; // Remove transition for smooth tracking
             });
@@ -193,19 +193,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function animateParticles() {
             ctx.clearRect(0, 0, width, height);
-            
+
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
-                
+
                 for (let j = i; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
-                    
+
                     if (distance < 100) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(0, 218, 243, ${0.1 - distance/1000})`;
+                        ctx.strokeStyle = `rgba(0, 218, 243, ${0.1 - distance / 1000})`;
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     //  AI CHATBOT (Gemini API)
     // =============================================
-    const GEMINI_API_KEY = 'AIzaSyBIkxxxtTlwB1fKdTZ45i2PmPyYr3biXkI';
+    const GEMINI_API_KEY = 'AIzaSyBIkxxxtTlwB1fKdTZ45i2PmPyYr3biXkI'; // <-- Replace with your key
     const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     const SUJEET_RESUME_CONTEXT = `You are Sujeet Kumar's personal AI assistant on his portfolio website. You answer questions about Sujeet ONLY based on the information below. Be conversational, professional, concise, and friendly. Use bullet points or short paragraphs. If someone asks something unrelated to Sujeet, politely redirect them. If you don't know something specific, say so honestly rather than inventing details. Use emojis sparingly to keep it engaging.
@@ -427,37 +427,90 @@ Remember: Only answer based on the above information. Be helpful and represent S
         }
     }
 
+    // --- Offline Fallback Knowledge Base ---
+    const OFFLINE_RESPONSES = {
+        skills: "Here are Sujeet's key skills! 🚀\n\n**Languages & Core:** Python, SQL, C++, JavaScript, HTML/CSS\n\n**Data Science & ML:** Scikit-Learn, Predictive Modeling, Data Cleaning, EDA, Power BI, Tableau\n\n**Techniques:** Regression, Classification, Decision Trees, Data Visualization, Algorithm Design\n\n**Soft Skills:** Problem Solving, Cross-functional Collaboration, Strategic Thinking, Project Management",
+
+        experience: "Here's Sujeet's professional experience! 💼\n\n**1. Data Science Intern — Unified Mentor** (June 2025 - July 2025)\n- Executed end-to-end EDA and data cleaning on large datasets\n- Developed and validated machine learning models\n- Derived insights from structured data for decision-making\n\n**2. Cybersecurity Intern — CDAC** (May 2025 - July 2025)\n- Hands-on experience securing digital assets\n- Analyzed potential security vulnerabilities\n- Risk mitigation strategies for financial data protection\n\n**3. Team Leader — Viral Fission** (May 2023 - May 2026)\n- Led a community team, driving engagement strategies\n- Demonstrated leadership and communication skills",
+
+        projects: "Here are Sujeet's notable projects! 🚀\n\n**1. Laptop Price Predictor** — ML model predicting market prices using Scikit-Learn, deployed via Streamlit with 92% accuracy.\n\n**2. CreatorCalc** — Algorithmic pricing dashboard for content creators with custom weighted algorithms and real-time lead capture.\n\n**3. Customer Trends & Spending Analysis** — End-to-end analysis using Python, SQL & Power BI to uncover spending patterns.\n\n**4. Elite Influencer** — Full-stack marketplace connecting influencers with brands for optimized marketing campaigns.",
+
+        education: "Here's Sujeet's educational background! 🎓\n\n**1. Master of Computer Science** (2024 - 2026 Expected)\nDepartment of Computer Science, University of Delhi\nCoursework: Machine Learning, Deep Learning, AI, Cloud Computing\n\n**2. B.Sc. Physical Science with Computer Science** (2021 - 2024)\nAcharya Narendra Dev College, University of Delhi\nGPA: 7.64 / 10.0\nCoursework: Data Structures, DBMS, Operating Systems, Computer Networks",
+
+        certifications: "Sujeet holds these certifications! ✅\n\n- **Data Analytics Course** — PW Skills & Microsoft\n- **Career Skills in Data Analytics** — LinkedIn\n- **Data Analytics Job Simulation** — Deloitte Australia\n- **Prompt Design in Vertex AI Skill Badge** — Google",
+
+        contact: "You can reach Sujeet through:\n\n📧 **Email:** sujeetk.work@gmail.com\n📱 **Phone:** +91 7004072847\n📍 **Location:** New Delhi, Delhi, India\n\nHe's available for collaborations, internships, and data-driven projects!",
+
+        about: "Sujeet Kumar is a **Master of Computer Science** candidate at the University of Delhi 🎓\n\nHe specializes in predictive modeling, data analytics, algorithm design, and marketing. He has proven ability to develop and deploy ML solutions using Python, SQL, and Scikit-Learn.\n\nHe combines technical proficiency with team leadership and cybersecurity experience.",
+
+        leadership: "Here are Sujeet's leadership roles! 👥\n\n- **Team Leader** at Viral Fission — Led a community team, structuring business findings and driving engagement strategies\n- **Campus Ambassador** for Realme India and 91 Mobiles\n- **Elite Community Member** at 91 Mobiles",
+
+        default: "Hi! 👋 I'm Sujeet's AI assistant. I can tell you about his:\n\n- 💡 **Skills** — Technical and soft skills\n- 💼 **Experience** — Internships and work history\n- 🚀 **Projects** — ML, web, and data projects\n- 🎓 **Education** — Degrees and coursework\n- ✅ **Certifications** — Professional credentials\n- 📧 **Contact** — How to reach Sujeet\n\nJust ask about any of these topics!"
+    };
+
+    function getOfflineResponse(message) {
+        const msg = message.toLowerCase();
+
+        if (msg.match(/skill|tech|python|sql|tool|language|stack|arsenal/)) return OFFLINE_RESPONSES.skills;
+        if (msg.match(/experience|work|intern|job|career|unified|cdac|viral/)) return OFFLINE_RESPONSES.experience;
+        if (msg.match(/project|laptop|creator|elite|customer|build|portfolio/)) return OFFLINE_RESPONSES.projects;
+        if (msg.match(/education|study|degree|university|college|school|gpa|master|bsc/)) return OFFLINE_RESPONSES.education;
+        if (msg.match(/certif|course|badge|credential/)) return OFFLINE_RESPONSES.certifications;
+        if (msg.match(/contact|email|phone|reach|hire|connect|mail/)) return OFFLINE_RESPONSES.contact;
+        if (msg.match(/who|about|tell me|introduce|summary|background/)) return OFFLINE_RESPONSES.about;
+        if (msg.match(/lead|leader|ambassador|community|team/)) return OFFLINE_RESPONSES.leadership;
+        if (msg.match(/hello|hi |hey|greet/)) return "Hey there! 👋 I'm Sujeet's AI assistant. Ask me about his skills, experience, projects, education, or certifications!";
+
+        return OFFLINE_RESPONSES.default;
+    }
+
     async function callGeminiAPI(userMessage) {
         if (GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
-            throw new Error('API key not configured');
+            // No API key — use offline mode
+            return getOfflineResponse(userMessage);
         }
 
-        const requestBody = {
-            system_instruction: {
-                parts: [{ text: SUJEET_RESUME_CONTEXT }]
-            },
-            contents: conversationHistory
-        };
+        try {
+            const requestBody = {
+                system_instruction: {
+                    parts: [{ text: SUJEET_RESUME_CONTEXT }]
+                },
+                contents: conversationHistory
+            };
 
-        const response = await fetch(GEMINI_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-        });
+            const response = await fetch(GEMINI_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error?.message || `API Error: ${response.status}`);
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                const errorMessage = errorData.error?.message || '';
+
+                // If quota exceeded or rate limited, fall back to offline
+                if (response.status === 429 || errorMessage.includes('quota') || errorMessage.includes('RESOURCE_EXHAUSTED')) {
+                    console.warn('Gemini API quota exceeded. Using offline fallback.');
+                    return getOfflineResponse(userMessage);
+                }
+
+                throw new Error(errorMessage || `API Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (!aiText) {
+                // No AI response — fall back to offline
+                return getOfflineResponse(userMessage);
+            }
+
+            return aiText;
+        } catch (err) {
+            // Network error or any other failure — fall back to offline
+            console.warn('Gemini API error, using offline fallback:', err.message);
+            return getOfflineResponse(userMessage);
         }
-
-        const data = await response.json();
-        const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        if (!aiText) {
-            throw new Error('No response from AI');
-        }
-
-        return aiText;
     }
 
 });
