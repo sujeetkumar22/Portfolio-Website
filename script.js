@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     //  AI CHATBOT (Gemini API)
     // =============================================
-    const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY'; // <-- Replace with your key
+    const GEMINI_API_KEY = 'AIzaSyBIkxxxtTlwB1fKdTZ45i2PmPyYr3biXkI';
     const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     const SUJEET_RESUME_CONTEXT = `You are Sujeet Kumar's personal AI assistant on his portfolio website. You answer questions about Sujeet ONLY based on the information below. Be conversational, professional, concise, and friendly. Use bullet points or short paragraphs. If someone asks something unrelated to Sujeet, politely redirect them. If you don't know something specific, say so honestly rather than inventing details. Use emojis sparingly to keep it engaging.
