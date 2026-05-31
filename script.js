@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Typing Effect ---
-    const roles = ["Sujeet Kumar", "a Data Scientist", "a Security Analyst"];
+    const roles = ["Sujeet Kumar", "a Data Scientist", "a Database Engineer", "a Security Analyst"];
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -251,16 +251,21 @@ SKILLS:
 - Soft Skills: Problem Solving, Cross-functional Collaboration, Strategic Thinking, Project Management
 
 EXPERIENCE:
-1. Data Science Intern at Unified Mentor (June 2025 - July 2025, Remote)
+1. Database Engineer Intern at Teleforce (April 2026 - Present, Gurgaon)
+   - Administered, scaled, and maintained high throughput relational (PostgreSQL) and columnar (ClickHouse) databases housing 50+ millions of data points.
+   - Conducted advanced data querying and analytics to surface key operational insights, directly impacting product improvement strategies.
+   - Partnered with product engineers to build robust database models that powered a variety of cutting edge AI related solutions and products.
+
+2. Data Science Intern at Unified Mentor (June 2025 - July 2025, Remote)
    - Executed end-to-end EDA and data cleaning on large datasets to improve model accuracy and data quality.
    - Developed and validated machine learning models, applying statistical concepts to real-world data problems.
    - Derived insights from structured data to support data-driven decision-making processes.
 
-2. Cybersecurity Intern at Center of Development of Advanced Computing / CDAC (May 2025 - July 2025, Noida, UP)
+3. Cybersecurity Intern at Center of Development of Advanced Computing / CDAC (May 2025 - July 2025, Noida, UP)
    - Gained hands-on experience in securing digital assets, aligning with risk and fraud prevention methodologies.
    - Analyzed potential security vulnerabilities, enhancing understanding of risk mitigation strategies relevant to financial data protection.
 
-3. Team Leader at Viral Fission (May 2023 - May 2026, Mumbai, Maharashtra)
+4. Team Leader at Viral Fission (May 2023 - May 2026, Mumbai, Maharashtra)
    - Led a community team, structuring business findings and driving engagement strategies.
    - Demonstrated leadership and communication skills.
 
@@ -431,7 +436,7 @@ Remember: Only answer based on the above information. Be helpful and represent S
     const OFFLINE_RESPONSES = {
         skills: "Here are Sujeet's key skills! 🚀\n\n**Languages & Core:** Python, SQL, C++, JavaScript, HTML/CSS\n\n**Data Science & ML:** Scikit-Learn, Predictive Modeling, Data Cleaning, EDA, Power BI, Tableau\n\n**Techniques:** Regression, Classification, Decision Trees, Data Visualization, Algorithm Design\n\n**Soft Skills:** Problem Solving, Cross-functional Collaboration, Strategic Thinking, Project Management",
 
-        experience: "Here's Sujeet's professional experience! 💼\n\n**1. Data Science Intern — Unified Mentor** (June 2025 - July 2025)\n- Executed end-to-end EDA and data cleaning on large datasets\n- Developed and validated machine learning models\n- Derived insights from structured data for decision-making\n\n**2. Cybersecurity Intern — CDAC** (May 2025 - July 2025)\n- Hands-on experience securing digital assets\n- Analyzed potential security vulnerabilities\n- Risk mitigation strategies for financial data protection\n\n**3. Team Leader — Viral Fission** (May 2023 - May 2026)\n- Led a community team, driving engagement strategies\n- Demonstrated leadership and communication skills",
+        experience: "Here's Sujeet's professional experience! 💼\n\n**1. Database Engineer Intern — Teleforce** (April 2026 - Present)\n- Administered and scaled PostgreSQL & ClickHouse databases with 50M+ data points\n- Conducted advanced data querying and analytics for operational insights\n- Built robust database models powering AI solutions\n\n**2. Data Science Intern — Unified Mentor** (June 2025 - July 2025)\n- Executed end-to-end EDA and data cleaning on large datasets\n- Developed and validated machine learning models\n- Derived insights from structured data for decision-making\n\n**3. Cybersecurity Intern — CDAC** (May 2025 - July 2025)\n- Hands-on experience securing digital assets\n- Analyzed potential security vulnerabilities\n- Risk mitigation strategies for financial data protection\n\n**4. Team Leader — Viral Fission** (May 2023 - May 2026)\n- Led a community team, driving engagement strategies\n- Demonstrated leadership and communication skills",
 
         projects: "Here are Sujeet's notable projects! 🚀\n\n**1. Laptop Price Predictor** — ML model predicting market prices using Scikit-Learn, deployed via Streamlit with 92% accuracy.\n\n**2. CreatorCalc** — Algorithmic pricing dashboard for content creators with custom weighted algorithms and real-time lead capture.\n\n**3. Customer Trends & Spending Analysis** — End-to-end analysis using Python, SQL & Power BI to uncover spending patterns.\n\n**4. Elite Influencer** — Full-stack marketplace connecting influencers with brands for optimized marketing campaigns.",
 
@@ -452,7 +457,7 @@ Remember: Only answer based on the above information. Be helpful and represent S
         const msg = message.toLowerCase();
 
         if (msg.match(/skill|tech|python|sql|tool|language|stack|arsenal/)) return OFFLINE_RESPONSES.skills;
-        if (msg.match(/experience|work|intern|job|career|unified|cdac|viral/)) return OFFLINE_RESPONSES.experience;
+        if (msg.match(/experience|work|intern|job|career|unified|cdac|viral|teleforce|database/)) return OFFLINE_RESPONSES.experience;
         if (msg.match(/project|laptop|creator|elite|customer|build|portfolio/)) return OFFLINE_RESPONSES.projects;
         if (msg.match(/education|study|degree|university|college|school|gpa|master|bsc/)) return OFFLINE_RESPONSES.education;
         if (msg.match(/certif|course|badge|credential/)) return OFFLINE_RESPONSES.certifications;
